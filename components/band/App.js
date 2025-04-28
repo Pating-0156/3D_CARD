@@ -6,12 +6,8 @@ import { Canvas, extend, useThree, useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
-  
-
-
 
 extend({ MeshLineGeometry, MeshLineMaterial });
-
 
 const GLTF_PATH = '/assets/kartu.glb';
 const TEXTURE_PATH = '/assets/bandd.png';
@@ -22,10 +18,11 @@ useTexture.preload(TEXTURE_PATH);
 export default function App() {
   return (
     <div className="responsive-wrapper">
-<Canvas
-  camera={{ position: [0, 0, 13], fov: 25 }}
-  gl={{ alpha: true, preserveDrawingBuffer: true }}
->
+      <Canvas
+        camera={{ position: [0, 0, 13], fov: 25 }}
+        gl={{ alpha: true, preserveDrawingBuffer: true }}
+        style={{ background: 'transparent' }}  // Ensure transparency for Canvas
+      >
         <ambientLight intensity={Math.PI} />
         <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Band />
@@ -94,7 +91,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
 
   return (
     <>
-       <group position={[0, 4, 0]}>
+      <group position={[0, 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
         <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
@@ -126,7 +123,6 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
         <meshLineGeometry />
         <meshLineMaterial color="white" depthTest={false} resolution={[width, height]} useMap map={texture} repeat={[-4, 1]} lineWidth={1} />
       </mesh>
-      
     </>
   );
 }
